@@ -1,0 +1,17 @@
+diff --git a/node_modules/@remix-run/dev/dist/config.js b/node_modules/@remix-run/dev/dist/config.js
+index c210db5..52e8f25 100644
+--- a/node_modules/@remix-run/dev/dist/config.js
++++ b/node_modules/@remix-run/dev/dist/config.js
+@@ -177,7 +177,12 @@ async function readConfig(remixRoot, serverMode = serverModes.ServerMode.Product
+   };
+
+   if (fse__namespace.existsSync(path__namespace.resolve(appDirectory, "routes"))) {
++    let start = performance.now();
+     let conventionalRoutes = routesConvention.defineConventionalRoutes(appDirectory, appConfig.ignoredRouteFiles);
++    let stop = performance.now();
++    let inSeconds = (stop - start) / 1000;
++    let rounded = Number(inSeconds).toFixed(3);
++    console.log(`defineConventionalRoutes: ${rounded}s for ${Object.keys(conventionalRoutes).length} routes (${(rounded / Object.keys(conventionalRoutes).length * 1000).toFixed(2)}ms per file)`);
+
+     for (let key of Object.keys(conventionalRoutes)) {
+       let route = conventionalRoutes[key];
